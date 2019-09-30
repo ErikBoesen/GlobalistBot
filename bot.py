@@ -47,4 +47,5 @@ def send(text, group_id):
 
 
 if __name__ == '__main__':
-    print
+    while True:
+        print(process({'text': input('> '), 'sender_type': 'user', 'group_id': None}))
