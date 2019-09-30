@@ -7,7 +7,7 @@ from flask import Flask, request
 from website import Website
 
 app = Flask(__name__)
-bot = mebots.Bot('your_bot_shortname_here', os.environ.get('BOT_TOKEN'))
+bot = mebots.Bot('globalistbot', os.environ.get('BOT_TOKEN'))
 website = Website()
 
 PREFIX = '$'
