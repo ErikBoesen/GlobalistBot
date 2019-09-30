@@ -13,13 +13,7 @@ website = Website()
 PREFIX = '$'
 
 
-# Endpoint
-@app.route('/', methods=['POST'])
-def receive():
-    message = request.get_json()
-    group_id = message["group_id"]
-    print(message)
-
+def process(message):
     # Prevent self-reply
     if message['sender_type'] != 'bot':
         if message['text'].startswith(PREFIX):
@@ -27,7 +21,17 @@ def receive():
             command = args.pop(0)
             query = ' '.join(args)
             if command == 'search':
-                send(website.search(query), group_id)
+                return website.search(query)
+
+
+# Endpoint
+@app.route('/', methods=['POST'])
+def receive():
+    message = request.get_json()
+    group_id = message["group_id"]
+    response = process(message)
+    if response:
+        send(response, group_id)
 
     return 'ok', 200
 
@@ -40,3 +44,7 @@ def send(text, group_id):
         'text': text,
     }
     r = requests.post(url, data=message)
+
+
+if __name__ == '__main__':
+    print
